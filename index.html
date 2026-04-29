@@ -47,24 +47,23 @@
     <input type="text" id="pokId" placeholder="ID or Name">
     <button onclick="getPokemon(document.getElementById('pokId').value)">FETCH!</button>
     
-    <h3 id="pkName">Pokemon Name</h3>
+    <h3 id="pkName">Insert Pokemon name or ID!</h3>
     
     <div>
         <img id="pokeImg" src="" style="display:none;">
     </div>
 
-    <label for="spriteSelect">View Style:</label>
     <select id="spriteSelect" onchange="updateImage()">
+        <option value="official-artwork" selected>Official Artwork</option>
         <option value="front_default">Default Front</option>
         <option value="back_default">Default Back</option>
         <option value="front_shiny">Shiny Front</option>
         <option value="back_shiny">Shiny Back</option>
-        <option value="official-artwork">Official Artwork</option>
-        <option value="showdown">Animated (Showdown)</option>
+        <option value="showdown">Animated</option>
     </select>
 
-    <p id="type1">Type 1: -</p>
-    <p id="type2">Type 2: -</p>
+    <p id="type1"></p>
+    <p id="type2"></p>
 
     <div id="statsSection" class="stat-container"></div>
 </div>
@@ -77,7 +76,7 @@ function getPokemon(n) {
 
     fetch('https://pokeapi.co/api/v2/pokemon/' + n.toLowerCase())
     .then(res => {
-        if (!res.ok) throw new Error('Pokemon not found');
+        if (!res.ok) throw new Error('Pokemon not found :(');
         return res.json();
     })
     .then((data) => {
