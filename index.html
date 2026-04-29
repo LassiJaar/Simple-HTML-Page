@@ -46,16 +46,14 @@ function getPokemon(n) {
     .then((data) => {
         currentSprites = data.sprites;
         
-        document.getElementById('pkName').innerHTML = 'NAME: ' + data.name.toUpperCase();
+        document.getElementById('pkName').innerHTML = data.name.toUpperCase();
+        document.getElementById('type1').innerHTML = 'Type 1: ' + data.types[0].type.name;
         
-        document.getElementById('type1').innerHTML = '';
-        document.getElementById('type2').innerHTML = '';
-        
-        data.types.forEach((t, index) => {
-            const typeId = t.type.url.split('/').filter(Boolean).pop();
-            const iconUrl = `https://githubusercontent.com{typeId}.png`;
-            const img = `<img src="${iconUrl}" class="type-icon" style="height:25px; margin:5px;">`;
-            document.getElementById('type' + (index + 1)).innerHTML = img;
+        if(data.types[1]) {
+            document.getElementById('type2').innerHTML = 'Type 2: ' + data.types[1].type.name;
+        } else {
+            document.getElementById('type2').innerHTML = '';
+        }
         });
 
         const statsSection = document.getElementById('statsSection');
