@@ -17,7 +17,7 @@
         <div><img id="pokeImg" src="" style="display:none;"></div>
         <p id="type1"></p>
         <p id="type2"></p>
-        
+        <div id="descriptionBox" class="description-text"></div>
         <div id="statsSection" class="stat-container"></div>
     </div>
 
@@ -74,7 +74,25 @@ function getPokemon(n) {
         });
 
         updateImage();
+
+        return fetch(data.species.url); 
     })
+    .then(res => res.json())
+    .then((speciesData) => {
+        const descriptionEntry = speciesData.flavor_text_entries.find(
+            entry => entry.language.name === 'en'
+        );
+
+        if (descriptionEntry) {
+            let cleanDescription = descriptionEntry.flavor_text
+                .replace(/[\f\n\r]/gm, ' '); 
+            document.getElementById('descriptionBox').innerText = cleanDescription;
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById('descriptionBox').innerText = "DATA NOT FOUND.";
+    });
     .catch(err => alert(err.message));
 }
 
