@@ -59,13 +59,18 @@ function getPokemon(n) {
         statsSection.innerHTML = '';
 
         data.stats.forEach(s => {
-            const percentage = (s.base_stat / 255) * 100;
+            const percentage = Math.min((s.base_stat / 200) * 100, 100); 
+            const statClassName = s.stat.name; 
+            const displayName = s.stat.name.replace('special-', 'S.');
+
             statsSection.innerHTML += `
-                <div class="stat-label">${s.stat.name}: ${s.base_stat}</div>
-                <div class="bar-bg">
-                    <div class="bar-fill" style="width: ${percentage}%"></div>
-                </div>
-            `;
+                <div class="stat-row">
+                    <div class="stat-name">${displayName.toUpperCase()}</div>
+                    <div class="bar-bg">
+                        <div class="bar-fill ${statClassName}" style="width: ${percentage}%"></div>
+                    </div>
+                    <div style="width: 35px; font-size: 12px; margin-left: 8px; font-weight: bold;">${s.base_stat}</div>
+                </div>`;
         });
 
         updateImage();
