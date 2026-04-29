@@ -3,40 +3,76 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
-        canvas { border:1px solid #d3d3d3; background-color: #f1f1f1; }
-        body { font-family: sans-serif; padding: 20px; }
+        body { font-family: sans-serif; padding: 20px; background-color: #f1f1f1; }
+        .card { border:1px solid #d3d3d3; background: white; padding: 20px; border-radius: 8px; max-width: 300px; text-align: center; }
+        img { width: 150px; height: 150px; image-rendering: pixelated; }
     </style>
 </head>
 <body>
-    <input type="text" id="pokId" placeholder="Enter ID or Name (e.g. 6)"><br><br>
+
+<div class="card">
+    <input type="text" id="pokId" placeholder="ID or Name">
+    <button onclick="getPokemon(document.getElementById('pokId').value)">FETCH!</button>
     
-    <p id='pkName'>Pokemon Name: -</p>
-    <p id='type1'>Type 1: -</p>
-    <p id='type2'>Type 2: -</p>
+    <h3 id="pkName">Pokemon Name</h3>
+    
+    <div>
+        <img id="pokeImg" src="" style="display:none;">
+    </div>
 
-    <button onclick="getPokemon(document.getElementById('pokId').value)">FETCH POKÉMON!</button>
+    <label for="spriteSelect">View Style:</label>
+    <select id="spriteSelect" onchange="updateImage()">
+        <option value="front_default">Default Front</option>
+        <option value="back_default">Default Back</option>
+        <option value="front_shiny">Shiny Front</option>
+        <option value="back_shiny">Shiny Back</option>
+        <option value="official-artwork">Official Artwork</option>
+        <option value="showdown">Animated (Showdown)</option>
+    </select>
 
-    <script>
-    function getPokemon(n) {
-        if(!n) return;
+    <p id="type1">Type 1: -</p>
+    <p id="type2">Type 2: -</p>
+</div>
 
-        fetch('https://pokeapi.co/api/v2/pokemon/' + n.toLowerCase())
-        .then(res => {
-            if (!res.ok) throw new Error('Pokemon not found');
-            return res.json();
-        })
-        .then((data) => {
-            document.getElementById('pkName').innerHTML = 'Name: ' + data.name.toUpperCase();
-            document.getElementById('type1').innerHTML = 'Type 1: ' + data.types[0].type.name;
-            
-            if(data.types[1]) {
-                document.getElementById('type2').innerHTML = 'Type 2: ' + data.types[1].type.name;
-            } else {
-                document.getElementById('type2').innerHTML = 'Type 2: none';
-            }
-        })
-        .catch(err => alert(err.message));
+<script>
+let currentSprites = {};
+
+function getPokemon(n) {
+    if(!n) return;
+
+    fetch('https://pokeapi.co' + n.toLowerCase())
+    .then(res => res.json())
+    .then((data) => {
+        currentSprites = data.sprites;
+        
+        document.getElementById('pkName').innerText = data.name.toUpperCase();
+        document.getElementById('type1').innerText = 'Type 1: ' + data.types[0].type.name;
+        document.getElementById('type2').innerText = 'Type 2: ' + (data.types[1] ? data.types[1].type.name : 'none');
+        
+        updateImage();
+    })
+    .catch(err => alert("Pokémon not found!"));
+}
+
+function updateImage() {
+    const imgElement = document.getElementById('pokeImg');
+    const selection = document.getElementById('spriteSelect').value;
+    let url = "";
+
+    if (selection === "official-artwork") {
+        url = currentSprites.other['official-artwork'].front_default;
+    } else if (selection === "showdown") {
+        url = currentSprites.other['showdown'].front_default;
+    } else {
+        url = currentSprites[selection];
     }
-    </script>
+
+    if(url) {
+        imgElement.src = url;
+        imgElement.style.display = "inline-block";
+    }
+}
+</script>
+
 </body>
 </html>
