@@ -46,7 +46,7 @@ function getPokemon(n) {
     .then((data) => {
         currentSprites = data.sprites;
         
-        document.getElementById('pkName').innerHTML = data.name.toUpperCase();
+        document.getElementById('pkName').innerHTML = data.name.toUpperCase() + " #" + data.id;
         document.getElementById('type1').innerHTML = 'Type 1: ' + data.types[0].type.name;
         
         if(data.types[1]) {
