@@ -38,21 +38,25 @@
 let currentSprites = {};
 
 function getPokemon(n) {
-    if(!n) return;
+        if(!n) return;
 
-    fetch('https://pokeapi.co' + n.toLowerCase())
-    .then(res => res.json())
-    .then((data) => {
-        currentSprites = data.sprites;
-        
-        document.getElementById('pkName').innerText = data.name.toUpperCase();
-        document.getElementById('type1').innerText = 'Type 1: ' + data.types[0].type.name;
-        document.getElementById('type2').innerText = 'Type 2: ' + (data.types[1] ? data.types[1].type.name : 'none');
-        
-        updateImage();
-    })
-    .catch(err => alert("Pokémon not found!"));
-}
+        fetch('https://pokeapi.co/api/v2/pokemon/' + n.toLowerCase())
+        .then(res => {
+            if (!res.ok) throw new Error('Pokemon not found');
+            return res.json();
+        })
+        .then((data) => {
+            document.getElementById('pkName').innerHTML = 'Name: ' + data.name.toUpperCase();
+            document.getElementById('type1').innerHTML = 'Type 1: ' + data.types[0].type.name;
+            
+            if(data.types[1]) {
+                document.getElementById('type2').innerHTML = 'Type 2: ' + data.types[1].type.name;
+            } else {
+                document.getElementById('type2').innerHTML = 'Type 2: none';
+            }
+        })
+        .catch(err => alert(err.message));
+    }
 
 function updateImage() {
     const imgElement = document.getElementById('pokeImg');
