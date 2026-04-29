@@ -38,30 +38,37 @@
 let currentSprites = {};
 
 function getPokemon(n) {
-        if(!n) return;
+    if(!n) return;
 
-        fetch('https://pokeapi.co/api/v2/pokemon/' + n.toLowerCase())
-        .then(res => {
-            if (!res.ok) throw new Error('Pokemon not found');
-            return res.json();
-        })
-        .then((data) => {
-            document.getElementById('pkName').innerHTML = 'Name: ' + data.name.toUpperCase();
-            document.getElementById('type1').innerHTML = 'Type 1: ' + data.types[0].type.name;
-            
-            if(data.types[1]) {
-                document.getElementById('type2').innerHTML = 'Type 2: ' + data.types[1].type.name;
-            } else {
-                document.getElementById('type2').innerHTML = 'Type 2: none';
-            }
-        })
-        .catch(err => alert(err.message));
-    }
+    fetch('https://pokeapi.co/api/v2/pokemon/' + n.toLowerCase())
+    .then(res => {
+        if (!res.ok) throw new Error('Pokemon not found');
+        return res.json();
+    })
+    .then((data) => {
+        currentSprites = data.sprites;
+        
+        document.getElementById('pkName').innerHTML = 'Name: ' + data.name.toUpperCase();
+        document.getElementById('type1').innerHTML = 'Type 1: ' + data.types[0].type.name;
+        
+        if(data.types[1]) {
+            document.getElementById('type2').innerHTML = 'Type 2: ' + data.types[1].type.name;
+        } else {
+            document.getElementById('type2').innerHTML = 'Type 2: none';
+        }
+
+
+        updateImage();
+    })
+    .catch(err => alert(err.message));
+}
 
 function updateImage() {
     const imgElement = document.getElementById('pokeImg');
     const selection = document.getElementById('spriteSelect').value;
     let url = "";
+
+    if (!currentSprites.other) return;
 
     if (selection === "official-artwork") {
         url = currentSprites.other['official-artwork'].front_default;
