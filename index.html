@@ -46,14 +46,17 @@ function getPokemon(n) {
     .then((data) => {
         currentSprites = data.sprites;
         
-        document.getElementById('pkName').innerHTML = 'Name: ' + data.name.toUpperCase();
-        document.getElementById('type1').innerHTML = 'Type 1: ' + data.types[0].type.name;
+        document.getElementById('pkName').innerHTML = 'NAME: ' + data.name.toUpperCase();
         
-        if(data.types[1]) {
-            document.getElementById('type2').innerHTML = 'Type 2: ' + data.types[1].type.name;
-        } else {
-            document.getElementById('type2').innerHTML = '';
-        }
+        document.getElementById('type1').innerHTML = '';
+        document.getElementById('type2').innerHTML = '';
+        
+        data.types.forEach((t, index) => {
+            const typeId = t.type.url.split('/').filter(Boolean).pop();
+            const iconUrl = `https://githubusercontent.com{typeId}.png`;
+            const img = `<img src="${iconUrl}" class="type-icon" style="height:25px; margin:5px;">`;
+            document.getElementById('type' + (index + 1)).innerHTML = img;
+        });
 
         const statsSection = document.getElementById('statsSection');
         statsSection.innerHTML = '';
@@ -74,7 +77,6 @@ function getPokemon(n) {
         });
 
         updateImage();
-
         return fetch(data.species.url); 
     })
     .then(res => res.json())
@@ -84,16 +86,15 @@ function getPokemon(n) {
         );
 
         if (descriptionEntry) {
-            let cleanDescription = descriptionEntry.flavor_text
-                .replace(/[\f\n\r]/gm, ' '); 
+            let cleanDescription = descriptionEntry.flavor_text.replace(/[\f\n\r]/gm, ' '); 
             document.getElementById('descriptionBox').innerText = cleanDescription;
         }
     })
     .catch(err => {
         console.error(err);
+        alert(err.message);
         document.getElementById('descriptionBox').innerText = "DATA NOT FOUND.";
-    });
-    .catch(err => alert(err.message));
+    }); 
 }
 
 function updateImage() {
