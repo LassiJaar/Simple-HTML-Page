@@ -2,70 +2,33 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            padding: 40px; 
-            background-color: #f1f1f1; 
-            display: flex; 
-            justify-content: center;
-        }
-        .card { 
-            border: 1px solid #d3d3d3; 
-            background: white; 
-            padding: 40px; 
-            border-radius: 15px; 
-            width: 100%;
-            max-width: 600px; 
-            text-align: center; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        img { 
-            width: 250px; 
-            height: 250px; 
-            image-rendering: pixelated; 
-            margin: 20px 0;
-        }
-        input, select, button { 
-            padding: 12px; 
-            font-size: 16px; 
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            margin: 5px;
-        }
-        h3 { font-size: 28px; margin-bottom: 10px; }
-        
-        .stat-container { text-align: left; margin-top: 20px; width: 100%; }
-        .stat-label { font-size: 14px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
-        .bar-bg { background-color: #eee; border-radius: 10px; width: 100%; height: 20px; overflow: hidden; margin-bottom: 10px; }
-        .bar-fill { background-color: #ff4747; height: 100%; width: 0%; transition: width 0.6s ease-out; }
-    </style>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 
-<div class="card">
-    <input type="text" id="pokId" placeholder="ID or Name">
-    <button onclick="getPokemon(document.getElementById('pokId').value)">FETCH!</button>
-    
-    <h3 id="pkName">Insert Pokemon name or ID!</h3>
-    
-    <div>
-        <img id="pokeImg" src="" style="display:none;">
+<div class="pokedex">
+    <div style="margin-bottom: 20px;">
+        <input type="text" id="pokId" placeholder="ID OR NAME">
+        <button onclick="getPokemon(document.getElementById('pokId').value)">GO!</button>
     </div>
 
+    <div class="screen">
+        <h3 id="pkName">NO DATA</h3>
+        <div><img id="pokeImg" src="" style="display:none;"></div>
+        <div id="typeIcons"></div>
+        
+        <div id="statsSection" class="stat-container"></div>
+    </div>
+
+    <label style="font-size: 12px;">DISPLAY MODE:</label><br>
     <select id="spriteSelect" onchange="updateImage()">
-        <option value="official-artwork" selected>Official Artwork</option>
-        <option value="front_default">Default Front</option>
-        <option value="back_default">Default Back</option>
-        <option value="front_shiny">Shiny Front</option>
-        <option value="back_shiny">Shiny Back</option>
-        <option value="showdown">Animated</option>
+        <option selected value="official-artwork">OFFICIAL ART</option>
+        <option value="front_default">FRONT SPRITE</option>
+        <option value="back_default">BACK SPRITE</option>
+        <option value="front_shiny">SHINY FRONT</option>
+        <option value="back_shiny">SHINY BACK</option>
+        <option value="showdown">ANIMATED (GIF)</option>
     </select>
-
-    <p id="type1"></p>
-    <p id="type2"></p>
-
-    <div id="statsSection" class="stat-container"></div>
 </div>
 
 <script>

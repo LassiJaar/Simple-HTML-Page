@@ -1,0 +1,133 @@
+body { 
+    font-family: 'Courier New', Courier, monospace; 
+    background-color: #222; 
+    display: flex; 
+    justify-content: center;
+    padding: 20px;
+}
+
+.pokedex { 
+    background-color: #dc0a2d; 
+    border: 10px solid #8b0000;
+    border-radius: 20px; 
+    width: 100%;
+    max-width: 500px; 
+    padding: 30px; 
+    box-shadow: 10px 10px 0px #000;
+    color: white;
+    text-align: center;
+}
+
+.screen {
+    background-color: #dedede;
+    border: 5px solid #222;
+    border-radius: 10px;
+    padding: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+h3 { 
+    margin: 0; 
+    color: #222; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+}
+
+img#pokeImg { 
+    width: 200px; 
+    height: 200px; 
+    image-rendering: pixelated; 
+}
+
+.type-icon { 
+    height: 25px; 
+    margin: 5px; 
+    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.2)); 
+}
+
+input { 
+    padding: 10px; 
+    border-radius: 5px; 
+    border: none; width: 60%; 
+    font-family: inherit; 
+}
+
+button { 
+    padding: 10px 20px; 
+    background-color: #333; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer;
+    font-family: inherit;
+}
+
+button:hover { 
+    background-color: #555; 
+}
+
+select { 
+    margin-top: 10px; 
+    padding: 5px; 
+    width: 80%; 
+    border-radius: 5px; 
+}
+
+.stat-container { 
+    text-align: left; 
+    margin-top: 15px; 
+}
+
+.stat-row { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 5px; 
+}
+
+.stat-name { 
+    width: 100px; 
+    font-size: 12px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    color: #444; 
+}
+
+.bar-bg { 
+    flex-grow: 1; 
+    background-color: #bbb; 
+    height: 12px; 
+    border-radius: 6px; 
+    overflow: hidden; 
+    border: 1px solid #777; 
+}
+
+.bar-fill { 
+    height: 100%; 
+    width: 0%; 
+    transition: width 0.8s ease-in-out; 
+}
+
+.hp { 
+    background-color: #FF0000; 
+}
+
+.attack { 
+    background-color: #F08030; 
+}
+
+.defense { 
+    background-color: #F8D030; 
+}
+
+.special-attack { 
+    background-color: #6890F0; 
+}
+
+.special-defense { 
+    background-color: #78C850; 
+}
+
+.speed { 
+    background-color: #F85888; 
+}
